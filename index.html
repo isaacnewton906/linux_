@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Reference Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .question {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .answer {
+            margin-bottom: 15px;
+        }
+        .qa-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background-color: #eee;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Linux Reference Guide</h1>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showSection('commands')">Commands Reference</div>
+        <div class="tab" onclick="showSection('viva')">Viva Q&A</div>
+    </div>
+
+    <div id="commands" class="section-content">
+        <div class="container">
+            <h2>1. Basic Linux File Commands</h2>
+            <pre>
+# i) List all contents of home directory with options
+ls ~
+ls -l ~
+ls -a ~
+
+# ii) Create a directory with your name
+mkdir maddy
+
+# iii) Create a blank file in that directory
+touch maddy/file.txt
+
+# iv) Copy and move the file
+cp maddy/file.txt maddy/name2.txt   # copy file.txt to name2.txt
+mv maddy/name2.txt maddy/name3.txt  # move/rename name2.txt to name3.txt
+
+# v) Delete files and directory
+rm maddy/file.txt
+rm maddy/name3.txt
+rmdir maddy
+
+# vi) Show current working directory
+pwd
+            </pre>
+
+            <h2>2. Working with Text Files</h2>
+            <pre>
+# i)
+touch f1.txt f2.txt
+
+# ii)
+cat >> f1.txt
+# Enter: YourName RollNo SubjectName
+# Ctrl + D to save
+
+# iii)
+cat >> f2.txt
+# Enter: Department College City
+# Ctrl + D
+
+# iv)
+cat f1.txt
+cat f2.txt
+
+# v)
+cat f1.txt f2.txt > f3.txt
+            </pre>
+
+            <h2>3. Manual Pages, Sorting, Piping</h2>
+            <pre>
+# i)
+man ls > ls_manual.txt
+man cat > cat_manual.txt
+man sort > sort_manual.txt
+
+# ii)
+top              # Default
+top -u username  # For specific user
+bottom           # (Install with: sudo apt install bottom)
+
+# iii)
+sort file.txt
+wc file.txt
+grep "word" file.txt
+
+# iv) Piping example:
+ls -l | grep "txt" | wc -l
+            </pre>
+
+            <h2>4. Vi Editor</h2>
+            <pre>
+vi file.txt
+# Press i to insert
+# Press ESC, then:
+# :w to save
+# :q to quit
+# dd – delete line
+# yy – copy line
+# p – paste
+# h,j,k,l – move left, down, up, right
+            </pre>
+
+            <h2>5. File Permissions</h2>
+            <pre>
+touch filepermission.txt
+
+# i) Letters
+chmod u+rwx filepermission.txt
+chmod g+rx filepermission.txt
+chmod o+r filepermission.txt
+
+# ii) Numbers (rwx = 7, rx = 5, r = 4)
+chmod 754 filepermission.txt
+            </pre>
+
+            <h2>6. User and Group Management</h2>
+            <pre>
+# i)
+sudo adduser practexam
+
+# ii)
+sudo passwd practexam
+
+# iii)
+sudo groupadd examgroup
+sudo usermod -aG examgroup practexam
+
+# iv)
+sudo deluser practexam
+sudo groupdel examgroup
+            </pre>
+
+            <h2>7. Software Management (Synaptic)</h2>
+            <pre>
+# i)
+sudo apt install synaptic
+# Open GUI: sudo synaptic
+# Search and install VLC
+
+# ii)
+# Remove via synaptic GUI or:
+sudo apt remove vlc
+            </pre>
+
+            <h2>8. Software Management (APT)</h2>
+            <pre>
+# i)
+sudo apt update
+sudo apt install vlc
+
+# ii)
+sudo apt remove vlc
+sudo apt purge vlc
+            </pre>
+
+            <h2>9. Network Troubleshooting Commands</h2>
+            <pre>
+ifconfig       # Shows network info
+ping google.com
+netstat -tuln  # Shows listening ports
+route -n       # Displays routing table
+host google.com
+arp -a
+traceroute google.com
+hostname
+            </pre>
+
+            <h2>10. Shell Script: Positive/Negative/Zero</h2>
+            <pre>
+#!/bin/bash
+read -p "Enter a number: " num
+if [ $num -gt 0 ]; then
+    echo "Positive"
+elif [ $num -lt 0 ]; then
+    echo "Negative"
+else
+    echo "Zero"
+fi
+            </pre>
+
+            <h2>11. Shell Script: Digit Count (case)</h2>
+            <pre>
+#!/bin/bash
+read -p "Enter a number: " num
+length=${#num}
+case $length in
+1) echo "Single digit" ;;
+2) echo "Double digit" ;;
+3) echo "Three digit" ;;
+4) echo "Four digit" ;;
+*) echo "More than four digits" ;;
+esac
+            </pre>
+
+            <h2>12. Shell Script: Create Directory</h2>
+            <pre>
+#!/bin/bash
+read -p "Enter directory name: " dir
+if [ -d "$dir" ]; then
+    echo "Directory exists"
+else
+    mkdir "$dir"
+    echo "Directory created"
+fi
+            </pre>
+
+            <h2>13. Shell Script: Factorial (for loop)</h2>
+            <pre>
+#!/bin/bash
+read -p "Enter a number: " n
+fact=1
+for ((i=1; i<=n; i++)); do
+    fact=$((fact * i))
+done
+echo "Factorial: $fact"
+            </pre>
+
+            <h2>14. Shell Script: Factorial (while loop)</h2>
+            <pre>
+#!/bin/bash
+read -p "Enter a number: " n
+fact=1
+while [ $n -gt 1 ]; do
+    fact=$((fact * n))
+    n=$((n - 1))
+done
+echo "Factorial: $fact"
+            </pre>
+
+            <h2>15. Shell Script: Login Details</h2>
+            <pre>
+#!/bin/bash
+echo "All users:"
+cut -d: -f1 /etc/passwd
+
+echo "Logged in users count:"
+who | wc -l
+
+echo "Currently logged in users:"
+who
+
+echo "Groups of current user:"
+groups
+            </pre>
+
+            <h2>16. Shell Script: System Configuration</h2>
+            <pre>
+#!/bin/bash
+echo "User: $USER"
+echo "Login Name: $(whoami)"
+echo "Current Shell: $SHELL"
+echo "Home Directory: $HOME"
+echo "OS Type: $(uname -o)"
+echo "Path: $PATH"
+echo "Current Working Directory: $(pwd)"
+            </pre>
+
+            <h2>17. Install Apache Server</h2>
+            <pre>
+sudo apt update
+sudo apt install apache2
+sudo systemctl start apache2
+sudo systemctl enable apache2
+
+# Access in browser: http://localhost or http://your-ip
+            </pre>
+
+            <h2>18. Install Telnet Server</h2>
+            <pre>
+sudo apt install telnetd
+sudo systemctl start inetd
+sudo systemctl enable inetd
+
+# To test:
+telnet localhost
+            </pre>
+        </div>
+    </div>
+
+    <div id="viva" class="section-content" style="display:none">
+        <div class="container">
+            <h2>Linux Viva Questions and Answers</h2>
+
+            <h3>1. Basic Linux File Commands</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What does the <code>pwd</code> command do?</p>
+                <p class="answer">A: It prints the current working directory.</p>
+
+                <p class="question">Q2: How do you list hidden files?</p>
+                <p class="answer">A: Use <code>ls -a</code>.</p>
+
+                <p class="question">Q3: What's the difference between <code>cp</code> and <code>mv</code>?</p>
+                <p class="answer">A: <code>cp</code> copies the file; <code>mv</code> moves or renames it.</p>
+
+                <p class="question">Q4: How do you delete a non-empty directory?</p>
+                <p class="answer">A: Use <code>rm -r &lt;directory&gt;</code>.</p>
+
+                <p class="question">Q5: What happens if you use <code>rm</code> on a folder?</p>
+                <p class="answer">A: It gives an error unless you add the <code>-r</code> flag.</p>
+            </div>
+
+            <h3>2. Text File Handling</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What's the difference between <code>cat &gt;</code> and <code>cat &gt;&gt;</code>?</p>
+                <p class="answer">A: <code>&gt;</code> overwrites, <code>&gt;&gt;</code> appends to the file.</p>
+
+                <p class="question">Q2: How do you combine two files?</p>
+                <p class="answer">A: <code>cat file1 file2 &gt; newfile</code>.</p>
+
+                <p class="question">Q3: Can <code>cat</code> create a new file?</p>
+                <p class="answer">A: Yes, with redirection (<code>cat &gt; filename</code>).</p>
+
+                <p class="question">Q4: Why use <code>touch</code> instead of <code>cat</code>?</p>
+                <p class="answer">A: <code>touch</code> creates empty files instantly without input.</p>
+            </div>
+
+            <h3>3. Manual Pages and Piping</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What does the <code>man</code> command do?</p>
+                <p class="answer">A: It displays manual pages for commands.</p>
+
+                <p class="question">Q2: What does the <code>top</code> command show?</p>
+                <p class="answer">A: It displays real-time system processes and resource usage.</p>
+
+                <p class="question">Q3: What is <code>bottom</code>?</p>
+                <p class="answer">A: A modern, user-friendly alternative to <code>top</code>.</p>
+
+                <p class="question">Q4: How does <code>grep</code> work?</p>
+                <p class="answer">A: It searches for patterns in text.</p>
+
+                <p class="question">Q5: What is piping in Linux?</p>
+                <p class="answer">A: Using <code>|</code> to pass output of one command to another.</p>
+            </div>
+
+            <h3>4. Vi Editor</h3>
+            <div class="qa-section">
+                <p class="question">Q1: How do you enter insert mode in Vi?</p>
+                <p class="answer">A: Press <code>i</code>.</p>
+
+                <p class="question">Q2: How do you save and exit Vi?</p>
+                <p class="answer">A: Use <code>:wq</code>.</p>
+
+                <p class="question">Q3: What do <code>dd</code>, <code>yy</code>, and <code>p</code> do in Vi?</p>
+                <p class="answer">A: <code>dd</code> deletes line, <code>yy</code> copies line, <code>p</code> pastes.</p>
+
+                <p class="question">Q4: How do you navigate without a mouse in Vi?</p>
+                <p class="answer">A: Use <code>h</code>, <code>j</code>, <code>k</code>, <code>l</code> for left, down, up, right.</p>
+            </div>
+
+            <h3>5. File Permissions</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What does <code>chmod 754</code> mean?</p>
+                <p class="answer">A: User: rwx (7), Group: rx (5), Others: r (4).</p>
+
+                <p class="question">Q2: How to remove read permission from group?</p>
+                <p class="answer">A: <code>chmod g-r filename</code>.</p>
+
+                <p class="question">Q3: What is the difference between symbolic and numeric permission?</p>
+                <p class="answer">A: Symbolic uses letters (<code>u</code>, <code>g</code>, <code>o</code>); numeric uses numbers like 755.</p>
+            </div>
+
+            <h3>6. User and Group Management</h3>
+            <div class="qa-section">
+                <p class="question">Q1: How do you add a new user?</p>
+                <p class="answer">A: <code>sudo adduser username</code>.</p>
+
+                <p class="question">Q2: How do you change a user's password?</p>
+                <p class="answer">A: <code>sudo passwd username</code>.</p>
+
+                <p class="question">Q3: How to add a user to a group?</p>
+                <p class="answer">A: <code>sudo usermod -aG groupname username</code>.</p>
+
+                <p class="question">Q4: Difference between <code>adduser</code> and <code>useradd</code>?</p>
+                <p class="answer">A: <code>adduser</code> is user-friendly and interactive; <code>useradd</code> is low-level.</p>
+            </div>
+
+            <h3>7. Synaptic Package Manager</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What is Synaptic?</p>
+                <p class="answer">A: A GUI-based package manager for Debian-based systems.</p>
+
+                <p class="question">Q2: How do you install Synaptic?</p>
+                <p class="answer">A: <code>sudo apt install synaptic</code>.</p>
+
+                <p class="question">Q3: Can you install VLC via Synaptic?</p>
+                <p class="answer">A: Yes, search for VLC in Synaptic and install.</p>
+            </div>
+
+            <h3>8. APT Package Manager</h3>
+            <div class="qa-section">
+                <p class="question">Q1: How do you install VLC using APT?</p>
+                <p class="answer">A: <code>sudo apt install vlc</code>.</p>
+
+                <p class="question">Q2: What is the difference between <code>remove</code> and <code>purge</code>?</p>
+                <p class="answer">A: <code>remove</code> deletes software, <code>purge</code> also deletes config files.</p>
+
+                <p class="question">Q3: What does <code>apt update</code> do?</p>
+                <p class="answer">A: Updates the list of available packages.</p>
+            </div>
+
+            <h3>9. Network Commands</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What does <code>ifconfig</code> do?</p>
+                <p class="answer">A: Displays network interface configuration.</p>
+
+                <p class="question">Q2: What is <code>ping</code> used for?</p>
+                <p class="answer">A: Tests network connectivity.</p>
+
+                <p class="question">Q3: What does <code>netstat</code> show?</p>
+                <p class="answer">A: Active connections and listening ports.</p>
+
+                <p class="question">Q4: What does <code>traceroute</code> do?</p>
+                <p class="answer">A: Shows the path packets take to reach a destination.</p>
+            </div>
+
+            <h3>10-14. Shell Scripts</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What is the purpose of <code>if-elif</code>?</p>
+                <p class="answer">A: To check multiple conditions.</p>
+
+                <p class="question">Q2: What does <code>-gt</code>, <code>-lt</code>, and <code>-eq</code> mean?</p>
+                <p class="answer">A: Greater than, less than, and equal to, respectively.</p>
+
+                <p class="question">Q3: How do you check the length of a number?</p>
+                <p class="answer">A: Using <code>${#var}</code>.</p>
+
+                <p class="question">Q4: What is a <code>case</code> statement used for?</p>
+                <p class="answer">A: It simplifies checking multiple specific values.</p>
+
+                <p class="question">Q5: How to check if a directory exists?</p>
+                <p class="answer">A: <code>[ -d "dirname" ]</code>.</p>
+
+                <p class="question">Q6: What is a <code>for</code> loop used for?</p>
+                <p class="answer">A: Repeating tasks a specific number of times.</p>
+
+                <p class="question">Q7: Difference between <code>while</code> and <code>for</code> loop?</p>
+                <p class="answer">A: <code>while</code> repeats while a condition is true, <code>for</code> iterates over a range.</p>
+            </div>
+
+            <h3>15-16. System Information</h3>
+            <div class="qa-section">
+                <p class="question">Q1: How do you list all users?</p>
+                <p class="answer">A: <code>cut -d: -f1 /etc/passwd</code>.</p>
+
+                <p class="question">Q2: How do you check logged-in users?</p>
+                <p class="answer">A: Use <code>who</code>.</p>
+
+                <p class="question">Q3: How to find your groups?</p>
+                <p class="answer">A: Use <code>groups</code>.</p>
+
+                <p class="question">Q4: How to find current user?</p>
+                <p class="answer">A: Use <code>whoami</code> or <code>$USER</code>.</p>
+
+                <p class="question">Q5: How to find OS type?</p>
+                <p class="answer">A: Use <code>uname -o</code>.</p>
+            </div>
+
+            <h3>17-18. Servers</h3>
+            <div class="qa-section">
+                <p class="question">Q1: What is Apache?</p>
+                <p class="answer">A: An open-source web server.</p>
+
+                <p class="question">Q2: How to check if Apache is running?</p>
+                <p class="answer">A: <code>sudo systemctl status apache2</code>.</p>
+
+                <p class="question">Q3: What is Telnet used for?</p>
+                <p class="answer">A: Remote terminal access.</p>
+
+                <p class="question">Q4: Is Telnet secure?</p>
+                <p class="answer">A: No, it sends data unencrypted.</p>
+
+                <p class="question">Q5: What is the default port of Telnet?</p>
+                <p class="answer">A: Port 23.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            var sections = document.getElementsByClassName('section-content');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active tab
+            var tabs = document.getElementsByClassName('tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
